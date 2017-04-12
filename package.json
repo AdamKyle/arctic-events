@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "compile": "eslint src && eslint test && webpack && jest",
-    "prod": "eslint src && eslint test && webpack -p --optimize-minimize --json > bin/stats.json && jest"
+    "prod": "eslint src && eslint test && webpack -p --optimize-minimize --json > bin/stats.json && jest",
+    "test": "eslint src && eslint test && jest"
   },
   "repository": {
     "type": "git",

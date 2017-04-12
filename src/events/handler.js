@@ -57,6 +57,10 @@ class EventHandler {
   trigger(name) {
     let returnValue = null;
 
+    if (!this.events.length > 0) {
+      throw Error('There are no registered events.');
+    }
+
     this.events.forEach((event) => {
       if (event.name === name) {
         let beforeEventReturnValue = null;
@@ -75,7 +79,6 @@ class EventHandler {
 
           returnValue = this.triggerAfterEvent(null, cbReturnValue);
         }
-
       } else {
         throw Error('could not find ' + name + ' in the list of registered events.');
       }
@@ -136,11 +139,14 @@ class EventHandler {
   }
 
   /**
-   * Get only the events.
+   * Get all the events.
    *
    * @return {array} events
    */
   getEvents() {
+    this.events = this.events.concat(this.beforeEvents);
+    this.events = this.events.concat(this.afterEvents);
+
     return this.events;
   }
 
