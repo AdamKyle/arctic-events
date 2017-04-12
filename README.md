@@ -88,3 +88,18 @@ EventHandler.register('hello.world', (beforeEventCbReturnValue) => {
 ```
 
 What we are doing here is stipulating which before and which after event we should use when this event is triggered.
+
+What if you defined a bunch of before and after events, accept one of your events doesn't need any of them?
+
+Suppose you have an event that you don't want any before and after events to run for. you can set up your event the same way:
+
+```js
+// Assume you have multiple before and after events registered:
+
+EventHandler.register('hello.world', () => {
+  return 'hello world';
+}, null, false);
+
+```
+
+Notice here how we pass in `false`. This stipulates that your event will fire with out calling a before or after event.

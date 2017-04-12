@@ -52,4 +52,28 @@ describe('Triggering Events', () => {
 
     expect(EventHandler.trigger('hello.world')).toEqual('hello sam. how are you?');
   });
+
+  test('success in triggering an event with no before or after events', () => {
+    EventHandler.register('before.hello.world', () => {
+      return 'Hello world.';
+    }, 'before');
+
+    EventHandler.register('before.sams.world', () => {
+      return 'Hello Sam.';
+    }, 'before');
+
+    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
+      return 'hello world';
+    }, null, false);
+
+    EventHandler.register('after.hello.world', (mainEventCBReturnValue) => {
+      return mainEventCBReturnValue.toUpperCase();
+    }, 'after');
+
+    EventHandler.register('after.sams.world', (mainEventCBReturnValue) => {
+      return mainEventCBReturnValue.toLowerCase();
+    }, 'after');
+
+    expect(EventHandler.trigger('hello.world')).toEqual('hello world');
+  });
 });
