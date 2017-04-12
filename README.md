@@ -1,12 +1,23 @@
 # Arctic Events
 
+[![Build Status](https://travis-ci.org/AdamKyle/arctic-events.svg?branch=master)](https://travis-ci.org/AdamKyle/arctic-events)
+[![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)]()
+[![Made With Love](https://img.shields.io/badge/Made%20With-Love-green.svg)]()
+
+
 The core concept here is to register an event or multiple events and to trigger said events.
 
 I wanted to build this library as a learning exercise more then anything.
 
 ## Installing:
 
+```js
+npm install arctic-events
 
+// In your JS:
+
+const EventHandler = require('artic-events');
+```
 
 ## Getting Started
 
