@@ -1,6 +1,7 @@
 # Arctic Events
 
 [![Build Status](https://travis-ci.org/AdamKyle/arctic-events.svg?branch=master)](https://travis-ci.org/AdamKyle/arctic-events)
+[![npm version](https://badge.fury.io/js/arctic-events.svg)](https://badge.fury.io/js/arctic-events)
 [![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)]()
 [![Made With Love](https://img.shields.io/badge/Made%20With-Love-green.svg)]()
 
@@ -12,7 +13,7 @@ I wanted to build this library as a learning exercise more then anything.
 ## Installing:
 
 ```js
-npm install arctic-events
+yarn install arctic-events
 
 // In your JS:
 
