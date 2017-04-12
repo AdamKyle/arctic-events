@@ -4,6 +4,13 @@ The core concept here is to register an event or multiple events and to trigger 
 
 I wanted to build this library as a learning exercise more then anything.
 
+## Installing:
+
+
+## Getting Started
+
+Lets start with a really basic example:
+
 ```js
 EventHandler.register('event.name', (before) => {
   return 'hello world';
