@@ -25,9 +25,17 @@ class EventHandler {
    * @param {string} type  - Type: before, after.
    * @param {obj} use      - The use object to efine which.
    *                         before after event to use.
+   * @throws {Error}
    * @return {undefined}
    */
   register(name, cb, type, use) {
+
+    this.events.forEach((event) => {
+      if (event.name === name) {
+        throw Error(name + ' already exists in the set of registered events');
+      }
+    });
+
     const event = {
       name: name,
       cb: cb,

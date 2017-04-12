@@ -52,6 +52,18 @@ describe('Registering Events', () => {
       }, null, 'bananas');
     }).toThrow();
   });
+
+  test('Duplicate events should throw error', () => {
+    EventHandler.register('hello.world', (before) => {
+      return 'hello world';
+    });
+
+    expect(() => {
+      EventHandler.register('hello.world', (before) => {
+        return 'hello world';
+      });
+    }).toThrow();
+  });
 });
 
 describe('Triggering Events', () => {
