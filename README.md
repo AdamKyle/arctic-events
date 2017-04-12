@@ -5,6 +5,8 @@
 [![Maintenance](https://img.shields.io/maintenance/yes/2018.svg)]()
 [![Made With Love](https://img.shields.io/badge/Made%20With-Love-green.svg)]()
 
+> The actual version is 0.0.4, these badges are always out of date for me or take for ever to update.
+
 
 The core concept here is to register an event or multiple events and to trigger said events.
 
