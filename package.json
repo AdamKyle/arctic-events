@@ -1,6 +1,6 @@
 {
   "name": "arctic-events",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Arctic Events is a simple event handler and manager for events in javascript.",
   "main": "src/index.js",
   "scripts": {

@@ -2,64 +2,25 @@ const EventHandler = require('../../src/index');
 
 describe('Registering Events', () => {
   beforeEach(() => {
-    EventHandler.clearAllEvents();
+    eventHandler = new EventHandler();
+    eventHandler.clearAllEvents();
   });
 
   test('success in registering event', () => {
-    EventHandler.register('hello.world', (before) => {
+    eventHandler.register('hello.world', (before) => {
       return 'hello world';
     });
 
-    expect(EventHandler.getEvents()).toHaveLength(1);
-  });
-
-  test('success in registering event of type', () => {
-    EventHandler.register('hello.world', (before) => {
-      return 'hello world';
-    }, 'before');
-
-    expect(EventHandler.getEvents()).toHaveLength(1);
-  });
-
-  test('success in registering event with use', () => {
-    EventHandler.register('hello.world', (before) => {
-      return 'hello world';
-    }, null, {use: {before: 'event.name', after: 'event.name' }});
-
-    expect(EventHandler.getEvents()).toHaveLength(1);
-  });
-
-  test('success in registering event with use as false', () => {
-    EventHandler.register('hello.world', (before) => {
-      return 'hello world';
-    }, null, false);
-
-    expect(EventHandler.getEvents()).toHaveLength(1);
-  });
-
-  test('Invalid type should throw error', () => {
-    expect(() => {
-      EventHandler.register('hello.world', (before) => {
-        return 'hello world';
-      }, 'fail');
-    }).toThrow();
-  });
-
-  test('Invalid use should throw error', () => {
-    expect(() => {
-      EventHandler.register('hello.world', (before) => {
-        return 'hello world';
-      }, null, 'bananas');
-    }).toThrow();
+    expect(eventHandler.getEvents()).toHaveLength(1);
   });
 
   test('Duplicate events should throw error', () => {
-    EventHandler.register('hello.world', (before) => {
+    eventHandler.register('hello.world', (before) => {
       return 'hello world';
     });
 
     expect(() => {
-      EventHandler.register('hello.world', (before) => {
+      eventHandler.register('hello.world', (before) => {
         return 'hello world';
       });
     }).toThrow();
@@ -68,119 +29,50 @@ describe('Registering Events', () => {
 
 describe('Triggering Events', () => {
   beforeEach(() => {
-    EventHandler.clearAllEvents();
+    eventHandler = new EventHandler();
+    eventHandler.clearAllEvents();
   });
 
   test('success in triggering a regular event', () => {
-    EventHandler.register('hello.world', (before) => {
+    eventHandler.register('hello.world', () => {
       return 'hello world';
     });
 
-    expect(EventHandler.trigger('hello.world')).toEqual('hello world');
+    expect(eventHandler.trigger('hello.world')).toEqual('hello world');
   });
 
-  test('success in triggering an event with before and after events', () => {
-    EventHandler.register('before.hello.world', () => {
-      return 'Hello world.';
-    }, 'before');
-
-    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
-      return beforeEventCbReturnValue + ' How are you?';
+  test('success in triggering an event with params', () => {
+    eventHandler.register('event.with.params', (a, b) => {
+      return a + ' ' + b;
     });
 
-    EventHandler.register('after.hello.world', (mainEventCBReturnValue) => {
-      return mainEventCBReturnValue.toLowerCase();
-    }, 'after');
-
-    expect(EventHandler.trigger('hello.world')).toEqual('hello world. how are you?');
+    expect(eventHandler.trigger('event.with.params', 'a', 'b')).toEqual('a b');
   });
 
-  test('success in triggering an event with specific before and after events', () => {
-    EventHandler.register('before.hello.world', () => {
-      return 'Hello world.';
-    }, 'before');
-
-    EventHandler.register('before.sams.world', () => {
-      return 'Hello Sam.';
-    }, 'before');
-
-    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
-      return beforeEventCbReturnValue + ' How are you?';
-    }, null, {use: {before: 'before.sams.world', after: 'after.sams.world'}});
-
-    EventHandler.register('after.hello.world', (mainEventCBReturnValue) => {
-      return mainEventCBReturnValue.toUpperCase();
-    }, 'after');
-
-    EventHandler.register('after.sams.world', (mainEventCBReturnValue) => {
-      return mainEventCBReturnValue.toLowerCase();
-    }, 'after');
-
-    expect(EventHandler.trigger('hello.world')).toEqual('hello sam. how are you?');
-  });
-
-  test('success in triggering an event with no before or after events', () => {
-    EventHandler.register('before.hello.world', () => {
-      return 'Hello world.';
-    }, 'before');
-
-    EventHandler.register('before.sams.world', () => {
-      return 'Hello Sam.';
-    }, 'before');
-
-    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
-      return 'hello world';
-    }, null, false);
-
-    EventHandler.register('after.hello.world', (mainEventCBReturnValue) => {
-      return mainEventCBReturnValue.toUpperCase();
-    }, 'after');
-
-    EventHandler.register('after.sams.world', (mainEventCBReturnValue) => {
-      return mainEventCBReturnValue.toLowerCase();
-    }, 'after');
-
-    expect(EventHandler.trigger('hello.world')).toEqual('hello world');
-  });
-
-  test('success in triggering an event with only an before event', () => {
-    EventHandler.register('before.hello.world', () => {
-      return 'Hello world.';
-    }, 'before');
-
-    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
-      return beforeEventCbReturnValue + ' How are you?';
+  test('success in triggering multiple events', () => {
+    eventHandler.register('event.with.params', (a, b) => {
+      return a + ' ' + b;
     });
 
-    expect(EventHandler.trigger('hello.world')).toEqual('Hello world. How are you?');
-  });
-
-  test('success in triggering an event with only an after event', () => {
-
-    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
-      return 'Hello world. How are you?';
+    eventHandler.register('event.with.no.params', () => {
+      return 'no params'
     });
 
-    EventHandler.register('after.sams.world', (mainEventCBReturnValue) => {
-      return mainEventCBReturnValue.toLowerCase();
-    }, 'after');
-
-    expect(EventHandler.trigger('hello.world')).toEqual('hello world. how are you?');
+    expect(eventHandler.trigger('event.with.params', 'a', 'b')).toEqual('a b');
+    expect(eventHandler.trigger('event.with.no.params')).toEqual('no params');
   });
 
-  test('cannot find event to trigger, when there are no events', () => {
+  test('eventHandler should be instance of EventHandler', () => {
+    eventHandler.register('event.instanceof.check', (eventHandler) => {
+      return eventHandler
+    });
+
+    expect(eventHandler.trigger('event.instanceof.check')).toBeInstanceOf(EventHandler);
+  });
+
+  test('error in triggering event that does not exist', () => {
     expect(() => {
-      EventHandler.trigger('some.name');
-    }).toThrow();
-  });
-
-  test('cannot find event to trigger, when there are events', () => {
-    EventHandler.register('hello.world', function(beforeEventCbReturnValue) {
-      return 'Hello world. How are you?';
-    });
-
-    expect(() => {
-      EventHandler.trigger('some.name');
+      eventHandler.trigger('event.with.params', 'a', 'b');
     }).toThrow();
   });
 });

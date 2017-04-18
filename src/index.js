@@ -1,5 +1,5 @@
 /*eslint-disable */
 
-module.exports = EventHandler = new (require('./events/handler'));
+module.exports = EventHandler = require('./events/handler');
 
 /*eslint-enable */
